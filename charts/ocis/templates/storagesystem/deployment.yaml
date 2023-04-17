@@ -133,7 +133,11 @@ spec:
         - name: storage-system-data
           {{ if .Values.services.storagesystem.persistence.enabled }}
           persistentVolumeClaim:
+            {{ if .Values.services.storagesystem.persistence.existingClaim }}
+            claimName: {{ .Values.services.storagesystem.persistence.existingClaim }}
+            {{ else }}
             claimName: {{ .appName }}-data
+            {{ end }}
           {{ else }}
           emptyDir: {}
           {{ end }}

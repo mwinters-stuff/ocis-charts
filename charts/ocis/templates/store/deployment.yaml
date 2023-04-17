@@ -96,7 +96,11 @@ spec:
         - name: store-data
           {{ if .Values.services.store.persistence.enabled }}
           persistentVolumeClaim:
+            {{ if .Values.services.store.persistence.existingClaim }}
+            claimName: {{ .Values.services.store.persistence.existingClaim }}
+            {{ else }}
             claimName: {{ .appName }}-data
+            {{ end }}
           {{ else }}
           emptyDir: {}
           {{ end }}

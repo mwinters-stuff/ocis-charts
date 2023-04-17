@@ -120,7 +120,11 @@ spec:
         - name: thumbnails-data
           {{ if .Values.services.thumbnails.persistence.enabled }}
           persistentVolumeClaim:
+            {{ if .Values.services.thumbnails.persistence.existingClaim }}
+            claimName: {{ .Values.services.thumbnails.persistence.existingClaim }}
+            {{ else }}
             claimName: {{ .appName }}-data
+            {{ end }}
           {{ else }}
           emptyDir: {}
           {{ end }}

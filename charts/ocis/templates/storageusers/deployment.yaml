@@ -209,7 +209,11 @@ spec:
         - name: storage-users-data
           {{ if .Values.services.storageusers.persistence.enabled }}
           persistentVolumeClaim:
+            {{ if .Values.services.storageusers.persistence.existingClaim }}
+            claimName: {{ .Values.services.storageusers.persistence.existingClaim }}
+            {{ else }}
             claimName: {{ .appName }}-data
+            {{ end }}
           {{ else }}
           emptyDir: {}
           {{ end }}
